@@ -3,23 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rhfreakytux's GitHub Sites</title>
+    <title>rhfreakytux</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Roboto+Mono:wght@400&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --rhel-red: #EE0000;
+            --rhel-dark-red: #B00000;
+            --rhel-black: #1A1A1A;
+            --rhel-gray: #333333;
+            --rhel-light-gray: #E0E0E0;
+            --rhel-white: #FFFFFF;
+        }
+
         body {
-            font-family: 'Roboto Mono', monospace;
-            background-color: #1a202c; /* Dark background for the overall page */
-            color: #e2e8f0; /* Light gray text for contrast */
+            font-family: 'Fira Code', monospace;
+            background-color: var(--rhel-black);
+            color: var(--rhel-light-gray);
             display: flex;
-            justify-content: center; /* Center the terminal window */
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 2rem;
+            padding: 0;
+            margin: 0;
             box-sizing: border-box;
-            overflow: hidden; /* Prevent scrollbars during boot sequence */
+            overflow: hidden;
         }
 
         /* Boot Screen Styles */
@@ -29,8 +39,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
-            color: #0f0; /* Green text for boot messages */
+            background-color: var(--rhel-black);
+            color: #0f0; /* Classic green for boot messages */
+            font-family: 'Roboto Mono', monospace;
             font-size: 0.9rem;
             padding: 2rem;
             box-sizing: border-box;
@@ -41,7 +52,7 @@
             z-index: 100;
             opacity: 1;
             transition: opacity 1s ease-out;
-            overflow-y: auto; /* Allow scrolling for boot messages */
+            overflow-y: auto;
         }
         .boot-line {
             white-space: pre-wrap;
@@ -59,87 +70,77 @@
             to { width: 100%; }
         }
 
-        /* Terminal Window Styles */
-        .terminal-window {
-            background-color: #2d3748; /* Darker background for the terminal itself */
-            border-radius: 0.75rem; /* Rounded corners */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-            padding: 2rem;
-            max-width: 800px; /* Slightly wider terminal */
+        /* Desktop Screen Styles */
+        #desktop-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            min-height: 400px; /* Taller terminal */
-            overflow: hidden;
-            position: relative;
+            height: 100%;
+            background-image: url('https://images.hdqwalls.com/download/tux-linux-light-4k-17-1920x1080.jpg');
+            background-size: cover; /* Ensures the wallpaper covers the entire screen, potentially cropping */
+            background-position: center;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            text-align: left; /* Ensure text aligns left within the terminal */
-            opacity: 0; /* Hidden initially */
-            transition: opacity 1s ease-in;
-        }
-        .terminal-header {
-            background-color: #4a5568; /* Header bar color */
-            border-top-left-radius: 0.75rem;
-            border-top-right-radius: 0.75rem;
-            height: 24px;
-            display: flex;
+            justify-content: center;
             align-items: center;
-            padding-left: 0.75rem;
+            z-index: 90;
+            opacity: 0;
+            transition: opacity 1.5s ease-in;
+            position: relative;
+        }
+        #desktop-screen::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            z-index: 10;
-        }
-        .terminal-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-        .dot-red { background-color: #ef4444; }
-        .dot-yellow { background-color: #f59e0b; }
-        .dot-green { background-color: #10b981; }
-
-        .terminal-content {
-            margin-top: 24px; /* Space for the header */
-            padding-top: 1rem;
-            flex-grow: 1;
-            white-space: pre-wrap; /* Preserve whitespace and wrap text */
-            word-break: break-word; /* Break long words */
-            line-height: 1.5;
-            overflow-y: auto; /* Enable scrolling for content */
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker black shade overlay (70% opacity) */
+            z-index: 1;
         }
 
-        .terminal-line {
-            display: flex; /* Make it a flex container */
-            align-items: baseline; /* Align items at their text baseline */
-            justify-content: flex-start; /* Explicitly align content to the start */
-            width: 100%; /* Ensure it takes full width */
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 36px;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+            color: var(--rhel-white);
+            font-size: 0.875rem;
         }
 
-        .prompt {
-            color: #48bb78; /* Green for the prompt */
-            margin-right: 0.5rem;
-            display: inline;
+        .welcome-card {
+            padding: 2.5rem 3.5rem;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            color: var(--rhel-white);
+            z-index: 2;
+            position: relative;
+            margin-top: 36px; /* Account for the top bar */
         }
 
-        .unexecuted-command {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 0.15em solid #e2e8f0; /* Blinking cursor */
-            animation: typing-command 2s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+        .welcome-message {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.75rem; /* Smaller font size */
+            font-weight: 800;
+            line-height: 1; /* Ensure single line */
+            color: var(--rhel-white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            white-space: nowrap; /* Prevent text from wrapping */
         }
-
-        @keyframes typing-command {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #e2e8f0; }
+        .penguin-icon {
+            font-size: 1.8rem; /* Adjusted penguin size to match smaller text */
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            filter: drop-shadow(2px 2px 1px rgba(0,0,0,0.6));
         }
     </style>
 </head>
@@ -147,35 +148,41 @@
 
     <div id="boot-screen"></div>
 
-    <div class="terminal-window" id="tty-screen">
-        <div class="terminal-header">
-            <div class="terminal-dot dot-red"></div>
-            <div class="terminal-dot dot-yellow"></div>
-            <div class="terminal-dot dot-green"></div>
-        </div>
-        <div class="terminal-content">
-            <div class="terminal-line">
-                <span class="prompt">rhfreakytux@github.io:~$</span> <span id="mainCommand" class="unexecuted-command"></span>
+    <div id="desktop-screen">
+        <div class="top-bar">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold">Activities</span>
             </div>
+            <div id="current-time"></div>
+            <div class="flex items-center space-x-2">
+                <span>⚙️</span>
+                <span>🔊</span>
+                <span>🔋</span>
+            </div>
+        </div>
+        <div class="welcome-card">
+            <p class="welcome-message">
+                Welcome to rhfreakytux's github sites. <span class="penguin-icon">🐧</span>
+            </p>
         </div>
     </div>
 
     <script>
         const bootScreen = document.getElementById('boot-screen');
-        const ttyScreen = document.getElementById('tty-screen');
-        const mainCommandElement = document.getElementById('mainCommand');
+        const desktopScreen = document.getElementById('desktop-screen');
+        const currentTimeElement = document.getElementById('current-time');
 
         const bootMessages = [
             "Booting from Hard Disk...",
             "GRUB loading...",
-            "Welcome to rhfreakytux OS 5.15.0-91-generic (GNU/Linux)",
+            "Welcome to Red Hat Enterprise Linux 9.3 (Maipo)",
             "Checking file systems...fsck.xfs: clean, 123456/789012 files, 9876543/12345678 blocks",
             "Login: rhfreakytux (automatic login)"
         ];
 
         let bootLineIndex = 0;
-        const bootTypingSpeed = 15; // Speed for boot messages
-        const bootLineDelay = 200; // Delay between boot lines
+        const bootTypingSpeed = 15;
+        const bootLineDelay = 200;
 
         function typeBootLine() {
             if (bootLineIndex < bootMessages.length) {
@@ -184,41 +191,31 @@
                 lineDiv.textContent = bootMessages[bootLineIndex];
                 bootScreen.appendChild(lineDiv);
 
-                // Force reflow to restart animation for each line
                 void lineDiv.offsetWidth;
                 lineDiv.classList.add('show');
 
-                // Calculate duration based on text length and typing speed
                 const duration = bootMessages[bootLineIndex].length * bootTypingSpeed;
                 lineDiv.style.animationDuration = `${duration / 1000}s`;
 
                 bootLineIndex++;
                 setTimeout(typeBootLine, duration + bootLineDelay);
             } else {
-                // All boot messages typed, transition to TTY
                 setTimeout(() => {
                     bootScreen.style.opacity = '0';
                     setTimeout(() => {
                         bootScreen.style.display = 'none';
-                        ttyScreen.style.opacity = '1';
-                        typeMainCommand();
-                    }, 1000); // Fade out duration
-                }, 1000); // Delay after last boot message
+                        desktopScreen.style.opacity = '1';
+                        updateClock();
+                        setInterval(updateClock, 1000);
+                    }, 1500);
+                }, 1000);
             }
         }
 
-        const mainCommandText = "rhfreakytux's site 🐧";
-        let mainCommandCharIndex = 0;
-        const mainCommandTypingSpeed = 50;
-
-        function typeMainCommand() {
-            if (mainCommandCharIndex < mainCommandText.length) {
-                mainCommandElement.textContent += mainCommandText.charAt(mainCommandCharIndex);
-                mainCommandCharIndex++;
-                setTimeout(typeMainCommand, mainCommandTypingSpeed);
-            } else {
-                // Command fully typed, CSS animation will handle continuous blinking
-            }
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            currentTimeElement.textContent = now.toLocaleDateString('en-US', options);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
