@@ -3,185 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rhfreakytux's GitHub Sites</title>
+  <title>rhfreakytux's Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Roboto+Mono:wght@400&family=Fira+Code:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    html,
-    body {
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-
-    :root {
-      --rhel-red: #ee0000;
-      --rhel-dark-red: #b00000;
-      --rhel-black: #1a1a1a;
-      --rhel-gray: #333333;
-      --rhel-light-gray: #e0e0e0;
-      --rhel-white: #ffffff;
-    }
-
-    body {
-      font-family: 'Fira Code', monospace;
-      background-color: var(--rhel-black);
-      color: var(--rhel-light-gray);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #boot-screen,
-    #desktop-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    #boot-screen {
-      background-color: var(--rhel-black);
-      color: #0f0;
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.9rem;
-      padding: 2rem;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      z-index: 100;
-      opacity: 1;
-      transition: opacity 1s ease-out;
-      overflow-y: auto;
-    }
-
-    .boot-line {
-      white-space: pre-wrap;
-      overflow: hidden;
-      width: 0;
-      animation: typing-boot 0.03s steps(1, end) forwards;
-      animation-fill-mode: forwards;
-      opacity: 0;
-    }
-
-    .boot-line.show {
-      opacity: 1;
-    }
-
-    @keyframes typing-boot {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
-    }
-
-    #desktop-screen {
-      background-image: url('https://images.hdqwalls.com/download/tux-linux-light-4k-17-1920x1080.jpg');
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 90;
-      opacity: 0;
-      transition: opacity 1.5s ease-in;
-    }
-
-    #desktop-screen::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 1;
-    }
-
-    .top-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 36px;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 3;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 1rem;
-      color: var(--rhel-white);
-      font-size: 0.875rem;
-    }
-
-    .welcome-card {
-      padding: 4rem 3.5rem;
-      text-align: center;
-      width: 90%;
-      color: var(--rhel-white);
-      z-index: 2;
-      position: relative;
-      margin-top: 36px;
-    }
-
-    .welcome-message {
-      font-family: 'Fira Code', monospace;
-      font-size: 1.75rem;
-      font-weight: 800;
-      line-height: 1;
-      color: var(--rhel-white);
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      white-space: nowrap;
-    }
-
-    .penguin-icon {
-      font-size: 1.8rem;
-      margin-left: 0.5rem;
-      vertical-align: middle;
-      filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.6));
-    }
+    html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; }
+    :root { --rhel-black: #1a1a1a; --rhel-light-gray: #e0e0e0; --rhel-white: #ffffff; }
+    body { font-family: 'Fira Code', monospace; background: var(--rhel-black); color: var(--rhel-light-gray); display: flex; justify-content: center; align-items: center; }
+    #boot-screen, #desktop-screen { position: fixed; top:0; left:0; width:100%; height:100%; }
+    #boot-screen { background: var(--rhel-black); color: #0f0; font-family: 'Roboto Mono', monospace; font-size: 0.9rem; padding: 2rem; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; overflow-y: auto; transition: opacity 1s ease-out; z-index: 100; opacity: 1; }
+    .boot-line { white-space: pre-wrap; overflow: hidden; width: 0; animation: typing-boot 0.03s steps(1,end) forwards; opacity:0; }
+    .boot-line.show { opacity:1; }
+    @keyframes typing-boot { from {width:0;} to {width:100%;} }
+    #desktop-screen { background: url('https://images.hdqwalls.com/download/tux-linux-light-4k-17-1920x1080.jpg') center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 90; opacity: 0; transition: opacity 1.5s ease-in; }
+    #desktop-screen::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index:1; }
+    .top-bar { position: absolute; top:0; left:0; width:100%; height:36px; background: rgba(0,0,0,0.8); z-index:3; display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; color: var(--rhel-white); font-size: 0.875rem; }
+    .welcome-card { padding: 4rem 3.5rem; text-align: center; width: 90%; color: var(--rhel-white); z-index:2; position: relative; margin-top:36px; }
+    .welcome-message { font-family: 'Fira Code', monospace; font-size: 1.75rem; font-weight: 800; line-height: 1; color: var(--rhel-white); text-shadow: 2px 2px 4px rgba(0,0,0,0.5); white-space: nowrap; }
+    .penguin-icon { font-size: 1.8rem; margin-left: 0.5rem; vertical-align: middle; filter: drop-shadow(2px 2px 1px rgba(0,0,0,0.6)); }
   </style>
 </head>
-<body class="antialiased">
+<body>
   <div id="boot-screen"></div>
-
   <div id="desktop-screen">
     <div class="top-bar">
       <div class="flex items-center space-x-2">
-        <span class="font-bold">Activities</span>
+        <a href="https://github.com/rhfreakytux?tab=repositories" target="_blank" class="font-bold">Activities</a>
       </div>
       <div id="current-time"></div>
-      <div class="flex items-center space-x-2">
-        <span>⚙️</span>
-        <span>🔊</span>
-        <span>🔋</span>
-      </div>
     </div>
     <div class="welcome-card">
-      <p class="welcome-message">
-        Welcome to rhfreakytux's github sites. <span class="penguin-icon">🐧</span>
-      </p>
+      <p class="welcome-message">welcome to rhfreakytux's portal <span class="penguin-icon">🐧</span></p>
     </div>
   </div>
-
   <script>
     const bootScreen = document.getElementById('boot-screen');
     const desktopScreen = document.getElementById('desktop-screen');
     const currentTimeElement = document.getElementById('current-time');
-
     const bootMessages = [
       'Booting from Hard Disk...',
       'GRUB loading...',
@@ -189,56 +49,40 @@
       'Checking file systems...fsck.xfs: clean, 123456/789012 files, 9876543/12345678 blocks',
       'Login: rhfreakytux (automatic login)'
     ];
-
     let bootLineIndex = 0;
     const bootTypingSpeed = 15;
     const bootLineDelay = 200;
-
     function typeBootLine() {
       if (bootLineIndex < bootMessages.length) {
         const lineDiv = document.createElement('div');
         lineDiv.classList.add('boot-line');
         lineDiv.textContent = bootMessages[bootLineIndex];
         bootScreen.appendChild(lineDiv);
-
-        void lineDiv.offsetWidth;
-        lineDiv.classList.add('show');
-
+        void lineDiv.offsetWidth; lineDiv.classList.add('show');
         const duration = bootMessages[bootLineIndex].length * bootTypingSpeed;
-        lineDiv.style.animationDuration = `${duration / 1000}s`;
-
+        lineDiv.style.animationDuration = `${duration/1000}s`;
         bootLineIndex++;
         setTimeout(typeBootLine, duration + bootLineDelay);
       } else {
-        setTimeout(() => {
+        setTimeout(()=>{
           bootScreen.style.opacity = '0';
-          setTimeout(() => {
+          setTimeout(()=>{
             bootScreen.style.display = 'none';
             desktopScreen.style.opacity = '1';
-            updateClock();
-            setInterval(updateClock, 1000);
+            updateClock(); setInterval(updateClock, 1000);
           }, 1500);
         }, 1000);
       }
     }
-
     function updateClock() {
       const now = new Date();
-      const options = {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true
-      };
-      currentTimeElement.textContent = now.toLocaleDateString('en-US', options);
+      const timeString = now.toLocaleDateString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+      });
+      currentTimeElement.textContent = `${timeString} (GMT +5:45)`;
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      typeBootLine();
-    });
+    document.addEventListener('DOMContentLoaded', typeBootLine);
   </script>
 </body>
 </html>
