@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: The Architecture of Modern Compute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F2F2;
+            color: #2D2D2D;
+        }
+        .bg-primary { background-color: #0077C2; }
+        .text-primary { color: #0077C2; }
+        .bg-accent { background-color: #00A1E4; }
+        .text-accent { color: #00A1E4; }
+        .border-accent { border-color: #00A1E4; }
+        .bg-dark { background-color: #00508C; }
+        .text-dark { color: #00508C; }
+        .bg-light { background-color: #F2F2F2; }
+        .text-light { color: #F2F2F2; }
+        .text-heavy { color: #2D2D2D; }
+
+        .header-gradient {
+            background: linear-gradient(120deg, #00508C 0%, #00A1E4 100%);
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            max-height: 40vh;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .pyramid-level {
+            clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+            margin-bottom: -1px;
+        }
+        .flow-arrow {
+            position: relative;
+            width: 100%;
+            height: 2px;
+            background-color: #00A1E4;
+            margin: 2rem 0;
+        }
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: -5px;
+            border: solid #00A1E4;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 5px;
+            transform: rotate(-45deg);
+        }
+        .flow-box {
+            border: 2px solid #0077C2;
+        }
+        .interconnect {
+            border-style: dashed;
+            border-color: #E53E3E;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="header-gradient text-white p-8 text-center shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">The Architecture of Modern Compute</h1>
+        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto">From a single core to multi-socket servers, this is how CPUs and memory work together to deliver performance.</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <section id="cpu" class="card p-6 md:col-span-1 lg:col-span-1">
+                <h2 class="text-2xl font-bold text-dark mb-4">The Heart of the Machine: The CPU</h2>
+                <p class="text-heavy mb-6">The Central Processing Unit (CPU) is the brain of the computer, responsible for executing instructions and performing calculations. Its structure is hierarchical, with each component playing a crucial role in processing information efficiently.</p>
+                <div class="space-y-4 text-center">
+                    <div class="p-4 bg-dark text-white rounded-lg shadow-inner">
+                        <h3 class="font-bold text-lg">Socket</h3>
+                        <p class="text-sm">The physical connector on the motherboard where the CPU package (the chip) is installed. A motherboard can host one or multiple sockets.</p>
+                        <div class="mt-2 p-4 bg-primary rounded-lg">
+                             <h3 class="font-bold text-md">Physical Core</h3>
+                             <p class="text-xs">An independent processing unit integrated within the CPU chip. Each physical core is capable of executing instructions independently.</p>
+                             <div class="mt-2 p-2 bg-accent rounded-lg grid grid-cols-2 gap-2 text-dark">
+                                <div>
+                                    <h4 class="font-semibold text-sm">Thread</h4>
+                                    <p class="text-xs">(Logical Core)</p>
+                                </div>
+                                 <div>
+                                    <h4 class="font-semibold text-sm">Thread</h4>
+                                    <p class="text-xs">(Logical Core)</p>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-6 text-sm text-gray-600">This diagram illustrates how a single CPU socket contains physical cores. Modern CPUs leverage technologies like Hyper-Threading (Intel) or Simultaneous Multi-Threading (SMT) (AMD) to enable each physical core to handle multiple instruction streams concurrently. These concurrent streams are known as threads, and to the operating system, they appear as individual "logical cores" or "logical processors," allowing for more efficient utilization of the physical core's resources.</p>
+            </section>
+
+            <section id="memory" class="card p-6 md:col-span-2 lg:col-span-2">
+                <h2 class="text-2xl font-bold text-dark mb-4">The Need for Speed: The Memory Hierarchy</h2>
+                <p class="text-heavy mb-6">CPUs operate at extremely high speeds, vastly outpacing the speed of main memory (RAM). This disparity creates a "memory wall" that could lead to CPU idle time. To overcome this, computer systems employ a sophisticated memory hierarchy—a tiered structure of smaller, faster, and more expensive memory components positioned closer to the CPU, and larger, slower, and cheaper components further away. Data is strategically cached in the faster levels based on its likelihood of being accessed again.</p>
+                <div class="w-full flex flex-col items-center">
+                    <div class="pyramid-level bg-accent text-dark font-bold text-center p-2" style="width: 20%;">Registers</div>
+                    <div class="pyramid-level bg-primary text-white font-bold text-center p-2" style="width: 40%;">L1 Cache</div>
+                    <div class="pyramid-level bg-primary text-white font-bold text-center p-3" style="width: 60%;">L2 Cache</div>
+                    <div class="pyramid-level bg-dark text-white font-bold text-center p-3" style="width: 80%;">L3 Cache</div>
+                    <div class="pyramid-level bg-gray-300 text-heavy font-bold text-center p-4" style="width: 100%;">Main Memory (RAM)</div>
+                </div>
+                 <div class="mt-6 grid grid-cols-2 gap-4 text-center">
+                    <div><p class="font-semibold">Faster & Smaller (Closer to CPU)</p><div class="w-full h-2 bg-gradient-to-l from-accent to-dark rounded-full"></div></div>
+                    <div><p class="font-semibold">Slower & Larger (Further from CPU)</p><div class="w-full h-2 bg-gradient-to-r from-accent to-dark rounded-full"></div></div>
+                </div>
+                <p class="mt-6 text-sm text-gray-600">This pyramid visually represents the memory hierarchy. CPU registers are the fastest and smallest, directly integrated into the CPU for immediate data. L1 cache is dedicated to each core, followed by L2 cache. L3 cache is typically shared across all cores on a single CPU chip. Main memory (RAM) is the largest but slowest, serving as the primary storage for active programs. This layered approach ensures that frequently used data is readily available, minimizing latency.</p>
+            </section>
+            
+            <section id="numa-challenge" class="card p-6 md:col-span-2 lg:col-span-3">
+                <h2 class="text-2xl font-bold text-dark mb-4">Scaling Up: The Multi-Processor Challenge and UMA</h2>
+                <p class="text-heavy mb-6">In the early days of multiprocessing, systems often utilized Uniform Memory Access (UMA) architecture. In UMA, all Central Processing Units (CPUs) shared a single, common bus to access a monolithic block of main memory. While simpler to design, this shared memory bus became a critical bottleneck as the number of CPUs increased. Each processor had to contend for access to the bus, leading to significant delays and underutilization of CPU resources, effectively slowing down the entire system as processors waited their turn to fetch data.</p>
+                <div class="w-full p-4 border-2 border-red-400 rounded-lg bg-red-50">
+                    <h3 class="font-bold text-red-800 text-center mb-4">UMA Bottleneck: Shared Bus Contention</h3>
+                    <div class="flex flex-col md:flex-row justify-around items-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="flow-box p-3 rounded-lg text-center bg-white"><strong>CPU 0</strong></div>
+                        <div class="flow-box p-3 rounded-lg text-center bg-white"><strong>CPU 1</strong></div>
+                        <div class="flow-box p-3 rounded-lg text-center bg-white"><strong>CPU 2</strong></div>
+                        <div class="flow-box p-3 rounded-lg text-center bg-white"><strong>CPU 3</strong></div>
+                    </div>
+                    <div class="flex justify-center my-4">
+                        <div class="w-2 h-16 bg-red-500 animate-pulse"></div>
+                    </div>
+                    <div class="text-center font-bold text-red-600">SHARED MEMORY BUS (SINGLE POINT OF FAILURE & BOTTLENECK)</div>
+                    <div class="flex justify-center my-4">
+                        <div class="w-2 h-16 bg-red-500"></div>
+                    </div>
+                    <div class="flow-box p-6 rounded-lg text-center bg-gray-200"><strong>Main Memory (RAM)</strong></div>
+                </div>
+                <p class="mt-4 text-sm text-gray-600">The diagram highlights how the single shared memory bus in UMA systems becomes a choke point, limiting scalability and performance as more CPUs attempt to access memory simultaneously. This contention for the bus severely hampers the overall efficiency of the system, underscoring the need for a more distributed memory architecture to support high-performance computing.</p>
+            </section>
+            
+            <section id="numa-solution" class="card p-6 md:col-span-3 lg:col-span-2">
+                 <h2 class="text-2xl font-bold text-dark mb-4">The Solution: Non-Uniform Memory Access (NUMA) Architecture</h2>
+                 <p class="text-heavy mb-6">NUMA architecture was developed to overcome the limitations of UMA by decentralizing memory access. Instead of a single shared bus, each CPU (or, more precisely, each physical socket) is provided with its own dedicated bank of "local" memory. This direct connection ensures significantly faster memory access for the CPU and its cores within that local domain. While CPUs can still access "remote" memory modules attached to other CPU sockets, this communication occurs over a high-speed inter-processor interconnect (like Intel's UPI or AMD's Infinity Fabric), which, while fast, is still slower than local access. This difference in access speeds gives NUMA its "non-uniform" characteristic.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                    <div class="p-4 flow-box rounded-lg bg-green-50">
+                        <h3 class="font-bold text-green-800 text-center">NUMA Node 0</h3>
+                        <div class="flex flex-col items-center mt-4">
+                            <div class="flow-box p-3 rounded-lg bg-white"><strong>CPU 0</strong></div>
+                            <div class="w-2 h-8 bg-green-500 my-2"></div>
+                            <div class="text-green-600 font-semibold text-sm">Fast Local Access</div>
+                            <div class="w-2 h-8 bg-green-500 my-2"></div>
+                            <div class="flow-box p-4 rounded-lg bg-white"><strong>Local RAM</strong></div>
+                        </div>
+                    </div>
+                     <div class="p-4 flow-box rounded-lg bg-blue-50">
+                        <h3 class="font-bold text-blue-800 text-center">NUMA Node 1</h3>
+                        <div class="flex flex-col items-center mt-4">
+                            <div class="flow-box p-3 rounded-lg bg-white"><strong>CPU 1</strong></div>
+                            <div class="w-2 h-8 bg-blue-500 my-2"></div>
+                             <div class="text-blue-600 font-semibold text-sm">Fast Local Access</div>
+                            <div class="w-2 h-8 bg-blue-500 my-2"></div>
+                            <div class="flow-box p-4 rounded-lg bg-white"><strong>Local RAM</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center my-4 font-bold text-red-600 interconnect p-2">Slower Remote Access via Inter-Processor Interconnect</div>
+                 <p class="mt-4 text-sm text-gray-600">The diagram illustrates a typical 2-socket NUMA configuration, where each socket and its directly attached memory form a distinct NUMA node. The operating system, being "NUMA-aware," intelligently schedules processes and allocates memory to prioritize local access, thereby significantly improving system performance and scalability, especially in high-demand server environments.</p>
+            </section>
+
+            <section id="numa-speed" class="card p-6 md:col-span-1 lg:col-span-1 flex flex-col justify-center">
+                <h2 class="text-2xl font-bold text-dark mb-4">Local vs. Remote Access Speed: The Performance Gap</h2>
+                <p class="text-heavy mb-6">The distinction between local and remote memory access is not merely theoretical; it has a profound impact on real-world application performance. Remote access, requiring data to traverse the inter-processor interconnect, introduces additional latency and can significantly reduce effective memory bandwidth. This performance penalty can range from 20% to over 100% depending on the specific CPU architecture, interconnect speed, and the distance data must travel. Optimizing applications to maintain high "memory locality"—meaning that processes primarily access data residing in their local NUMA node—is critical for maximizing system throughput.</p>
+                <div class="chart-container">
+                    <canvas id="accessSpeedChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm text-gray-600 text-center">This chart visually represents the typical efficiency disparity: local memory access (where data is directly tied to the accessing CPU) is significantly faster and more efficient than remote memory access (where data resides on another CPU's memory bank). This highlights why careful NUMA management by the operating system and applications is essential for optimal server performance.</p>
+            </section>
+
+            <section id="numa-variation" class="card p-6 md:col-span-3">
+                <h2 class="text-2xl font-bold text-dark mb-4">NUMA in the Real World: Architecture & BIOS Influence</h2>
+                <p class="text-heavy mb-6">The logical topology of NUMA nodes, as presented to the operating system, is not solely determined by the number of physical CPU sockets. It is a nuanced configuration that heavily depends on the underlying CPU architecture and configurable settings within the system's BIOS/UEFI firmware. This flexibility allows server administrators to fine-tune the system's memory domain structure to best suit specific workload characteristics.</p>
+                <div class="chart-container h-[400px] max-h-[50vh]">
+                    <canvas id="numaVariationChart"></canvas>
+                </div>
+                 <p class="mt-6 text-sm text-gray-600">The chart above illustrates common NUMA configurations for a 2-socket server. For Intel Xeon Scalable processors, the default and most prevalent setup presents one NUMA node per physical socket, resulting in 2 NUMA nodes for a dual-socket system. In contrast, modern AMD EPYC processors, due to their internal chiplet design, offer greater flexibility through BIOS settings like "Nodes Per Socket" (NPS). For instance, setting NPS to 1 results in 2 NUMA nodes (one per socket), while NPS4 on a 2-socket system can expose up to 8 NUMA nodes (4 per socket). Disabling NUMA entirely in the BIOS forces a Uniform Memory Access (UMA) model, where all memory is treated as equally accessible, usually leading to performance degradation compared to a properly configured NUMA-aware setup. Choosing the correct configuration is paramount for workload optimization, especially in high-performance computing (HPC) and virtualization environments.</p>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        const wrapLabel = (label) => {
+            const maxLen = 16;
+            if (label.length <= maxLen) return label;
+            
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxLen) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        };
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#2D2D2D',
+                        font: {
+                            weight: '600'
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: '#2D2D2D' },
+                    grid: { color: '#e0e0e0' }
+                },
+                x: {
+                    ticks: { color: '#2D2D2D' },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        const accessSpeedCtx = document.getElementById('accessSpeedChart').getContext('2d');
+        new Chart(accessSpeedCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Local Memory Access Speed', 'Remote Access Overhead'],
+                datasets: [{
+                    label: 'Relative Speed',
+                    data: [100, 25],
+                    backgroundColor: ['#00A1E4', '#E53E3E'],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                         labels: {
+                            color: '#2D2D2D',
+                            font: {
+                                weight: '600'
+                            }
+                        }
+                    },
+                    title: {
+                        display: false
+                    },
+                    tooltip: {
+                         callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+
+        const numaVariationCtx = document.getElementById('numaVariationChart').getContext('2d');
+        new Chart(numaVariationCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabel('Intel 2-Socket Default'), 
+                    wrapLabel('AMD 2-Socket (NPS1)'), 
+                    wrapLabel('AMD 2-Socket (NPS4)'),
+                    wrapLabel('NUMA Disabled (UMA Mode)')
+                ],
+                datasets: [{
+                    label: 'Number of NUMA Nodes Presented to OS',
+                    data: [2, 2, 8, 1],
+                    backgroundColor: ['#00508C', '#0077C2', '#00A1E4', '#FBBF24'],
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                 ...defaultChartOptions,
+                 scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#2D2D2D', stepSize: 1 },
+                        grid: { color: '#e0e0e0' },
+                        title: {
+                            display: true,
+                            text: 'Number of NUMA Nodes',
+                            color: '#2D2D2D',
+                            font: { size: 14, weight: 'bold' }
+                        }
+                    },
+                    x: {
+                        ticks: { color: '#2D2D2D' },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
